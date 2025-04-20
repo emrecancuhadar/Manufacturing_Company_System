@@ -65,4 +65,14 @@ public class Product {
         }
         return total;
     }
+
+    public void addComponent(Component component) throws InvalidComponentNodeException
+    {
+        if (!component.getIsComponentNodeValid()) 
+        {
+            throw new InvalidComponentNodeException("Cannot add component: component is invalid.");
+        }
+        
+        this.components.add(component);
+    }
 } 
