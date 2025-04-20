@@ -1,5 +1,5 @@
 public class Stock {
-    private ComponentNode component;
+    private Component component;
     private int quantity;
 
     // Default constructor
@@ -8,7 +8,7 @@ public class Stock {
         this.quantity = 0;
     }
     // Full constructor
-    public Stock(ComponentNode component, int quantity) {
+    public Stock(Component component, int quantity) {
         this.component = component;
         this.quantity = quantity;
     }
@@ -19,11 +19,11 @@ public class Stock {
     }
 
     // Getters and Setters
-    public void setComponent(ComponentNode component) 
+    public void setComponent(Component component) 
     {
         this.component = component;
     }
-    public ComponentNode getComponent() 
+    public Component getComponent() 
     {
         return component;
     }
@@ -32,7 +32,7 @@ public class Stock {
     {
         this.quantity = quantity;
     }
-    
+
     public int getQuantity() 
     {
         return quantity;
