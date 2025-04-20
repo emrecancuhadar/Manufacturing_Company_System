@@ -1,3 +1,3 @@
 public interface ManufacturingState {
-    void handle(ManufacturingProcess process);
+    void handle(ManufacturingProcess process) throws ManufacturingProcessNotValid;
 } 
