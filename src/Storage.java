@@ -41,6 +41,31 @@ public class Storage {
     }
 
 
+    public Stock getStock(String stockName) throws InvalidStorageException
+    {
+        if (!getIsStorageValid()) 
+        {
+            throw new InvalidStorageException(
+                "Cannot get stock: storage is invalid."
+            );
+        }
+        if (stockList == null) 
+        {
+            // Either treat null as empty or throw—here we choose empty
+            return null;
+        }
+
+        for (Stock stock : stockList) 
+        {
+            if (stockName.equals(stock.getComponent().getName())) 
+            {
+                return stock;
+            }
+        }
+        // stock not found
+        return null;
+    }
+    
     /**
      * Checks if the given component is in stock with at least the required quantity.
      *
