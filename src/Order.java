@@ -22,6 +22,16 @@ public class Order {
     public int getQuantity() {
         return quantity;
     }
+
+    public void markOneCompleted() {
+        if (quantity > 0) {
+            quantity--;
+        }
+    }
+
+    public boolean isFinished() {
+        return quantity == 0;
+    }
     
     /**
      * Validates that the order has all required information

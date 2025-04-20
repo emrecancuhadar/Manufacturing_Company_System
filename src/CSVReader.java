@@ -52,7 +52,7 @@ public class CSVReader {
         
         return orders;
     }
-    
+
     // Core validation methods
     private static boolean isEmptyLine(String line) {
         return line == null || line.trim().isEmpty();
@@ -162,10 +162,11 @@ public class CSVReader {
             if (unitCost == null || unitWeight == null || quantity == null) return null;
 
             try {
-                Type type = Type.valueOf(typeStr.toUpperCase());
+                Type type = Type.fromLabel(typeStr.toLowerCase());
                 Component component = new Component(componentName, unitCost, unitWeight, 0, type, unit);
                 return new Stock(component, quantity);
             } catch (IllegalArgumentException e) {
+                e.printStackTrace();
                 System.err.println("Warning: Invalid type at line " + lineNumber + ": " + typeStr);
                 return null;
             }

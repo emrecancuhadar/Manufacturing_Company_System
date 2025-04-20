@@ -1,26 +1,28 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "main.java.com.manufacturing.Main",
-            "projectName": "G05_CENG431_HW2_821f252d"
-        },
-        {
-            "type": "java",
-            "name": "Debug Manufacturing System",
-            "request": "launch",
-            "mainClass": "main.java.com.manufacturing.Main",
-            "projectName": "G05_CENG431_HW2",
-            "args": [
-                "data/components.csv",
-                "data/products.csv"
-            ],
-            "classPaths": [
-                "bin"
-            ]
-        }
-    ]
-} 
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "Manufacturing_Company_System_3ed86bc2"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "main.java.com.manufacturing.Main",
+      "projectName": "G05_CENG431_HW2_821f252d"
+    },
+    {
+      "type": "java",
+      "name": "Debug Manufacturing System",
+      "request": "launch",
+      "mainClass": "main.java.com.manufacturing.Main",
+      "projectName": "G05_CENG431_HW2",
+      "args": ["data/components.csv", "data/products.csv"],
+      "classPaths": ["bin"]
+    }
+  ]
+}

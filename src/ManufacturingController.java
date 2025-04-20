@@ -7,10 +7,10 @@ public class ManufacturingController {
 
     public ManufacturingController() {
         this.orders = CSVReader.parseProducts("./products.csv");
-        this.storage = new Storage();
+        this.storage = new Storage(CSVReader.parseComponents("./components.csv"));
         this.isValid = true;
     }
-        
+       
     public void startManufacturing() {
         try {
             if (!isValid) {
@@ -18,13 +18,28 @@ public class ManufacturingController {
             }
     
             Report report = new Report();
-            
-            for (Order order: orders) {
+            int currentIndex = 0;
+
+            while (!isOver()) {
+                Order order = orders.get(currentIndex);
                 ManufacturingProcess manufacturingProcess = new ManufacturingProcess();
                 manufacturingProcess.process(storage, order.getBlueprint(), report);
+
+                order.markOneCompleted();
+
+                currentIndex = (currentIndex + 1) % orders.size();
             }
+
+            report.generateReport();
         } catch (ManufacturingControllerNotValid e) {
             e.printStackTrace();
         }
     }
+
+    private boolean isOver() {
+        boolean allOrdersDone = orders.stream().allMatch(Order::isFinished);
+        boolean stockDepleted = storage.getStockList().isEmpty();
+    
+        return allOrdersDone || stockDepleted;
+    }    
 } 
