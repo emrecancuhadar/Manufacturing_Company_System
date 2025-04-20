@@ -8,7 +8,7 @@ public class ManufacturingController {
         // To be implemented
     }
     
-    public void runManufacturing() {
+    public void startManufacturing() {
         // To be implemented
     }
 } 
