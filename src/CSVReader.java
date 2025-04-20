@@ -8,6 +8,51 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CSVReader {
+    public static List<Stock> parseComponents(String filePath) {
+        List<Stock> stocks = new ArrayList<>();
+        List<String[]> rows = readCsvFile(filePath, ";", 5);
+        
+        // Skip header row
+        for (int i = 1; i < rows.size(); i++) {
+            Stock stock = parseComponentRow(rows.get(i), i);
+            if (stock != null) {
+                stocks.add(stock);
+            }
+        }
+        
+        return stocks;
+    }
+
+    public static List<Order> parseProducts(String filePath) {
+        List<Order> orders = new ArrayList<>();
+        List<String[]> rows = readCsvFile(filePath, ";", 2);
+        
+        if (rows.isEmpty()) {
+            System.err.println("Error: No data found in products file");
+            return orders;
+        }
+        
+        // First row is header
+        String[] header = rows.get(0);
+        
+        // Parse data rows
+        for (int i = 1; i < rows.size(); i++) {
+            String[] data = rows.get(i);
+            
+            if (data.length != header.length) {
+                System.err.println("Warning: Incorrect fields at line " + i);
+                continue;
+            }
+            
+            Order order = parseProductRow(data, header, i);
+            if (order != null) {
+                orders.add(order);
+            }
+        }
+        
+        return orders;
+    }
+    
     // Core validation methods
     private static boolean isEmptyLine(String line) {
         return line == null || line.trim().isEmpty();
@@ -168,50 +213,5 @@ public class CSVReader {
                 }
             }
         }
-    }
-    
-    public static List<Stock> parseComponents(String filePath) {
-        List<Stock> stocks = new ArrayList<>();
-        List<String[]> rows = readCsvFile(filePath, ";", 5);
-        
-        // Skip header row
-        for (int i = 1; i < rows.size(); i++) {
-            Stock stock = parseComponentRow(rows.get(i), i);
-            if (stock != null) {
-                stocks.add(stock);
-            }
-        }
-        
-        return stocks;
-    }
-
-    public static List<Order> parseProducts(String filePath) {
-        List<Order> orders = new ArrayList<>();
-        List<String[]> rows = readCsvFile(filePath, ";", 2);
-        
-        if (rows.isEmpty()) {
-            System.err.println("Error: No data found in products file");
-            return orders;
-        }
-        
-        // First row is header
-        String[] header = rows.get(0);
-        
-        // Parse data rows
-        for (int i = 1; i < rows.size(); i++) {
-            String[] data = rows.get(i);
-            
-            if (data.length != header.length) {
-                System.err.println("Warning: Incorrect fields at line " + i);
-                continue;
-            }
-            
-            Order order = parseProductRow(data, header, i);
-            if (order != null) {
-                orders.add(order);
-            }
-        }
-        
-        return orders;
     }
 } 

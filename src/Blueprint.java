@@ -4,6 +4,11 @@ import java.util.Map;
 public class Blueprint {
     private Map<String, Integer> componentScheme;
     private String name;
+
+    public Blueprint() {
+        this.componentScheme = new HashMap<>();
+        this.name = "";
+    }
     
     public Blueprint(String name) {
         if (name == null || name.trim().isEmpty()) {

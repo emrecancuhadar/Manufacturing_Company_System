@@ -1,29 +1,24 @@
 public class ManufacturingProcess {
     private ManufacturingState currentState;
-    private Storage storage;
-    private Blueprint blueprint;
     private boolean isValid;
 
-    private ManufacturingProcess() {
+    public ManufacturingProcess() {
         this.currentState = new WaitingForStockState();
-        this.storage = new Storage(); // ??
-        this.blueprint = new Blueprint();
         this.isValid = false;
     }
-
-    private ManufacturingProcess(ManufacturingState state, Storage storage, Blueprint blueprint) {
-        this.currentState = state;
-        this.storage = storage;
-        this.blueprint = blueprint;
-        this.isValid = true;
-    }
     
-    private void startManufacture() throws ManufacturingProcessNotValid {
-        if (!isValid) {
-            throw new ManufacturingProcessNotValid();
+    public void process(Storage storage, Blueprint blueprint, Report report) {
+        this.setIsValid(this.validate(storage, blueprint, report));
+
+        try {
+            if (!isValid) {
+                throw new ManufacturingProcessNotValid();
+            }
+
+            this.currentState.handle(this, storage, blueprint, report);
+        } catch (ManufacturingProcessNotValid | InvalidComponentNodeException | InvalidStorageException e) {
+            e.printStackTrace();
         }
-        
-        this.currentState.handle(this);
     }
     
     public void setCurrentState(ManufacturingState state) {
@@ -38,19 +33,15 @@ public class ManufacturingProcess {
         throw new ManufacturingProcessNotValid("Can't get current state because ManufacturingProcess object is invalid.");
     }
 
-    public Storage getStorage() throws ManufacturingProcessNotValid {
-        if (this.isValid) {
-            return this.storage;
-        }
-
-        throw new ManufacturingProcessNotValid("Can't get storage because ManufacturingProcess object is invalid.");
+    private void setIsValid(boolean isValid) {
+        this.isValid = isValid;
     }
 
-    public Blueprint getBlueprint() throws ManufacturingProcessNotValid {
-        if (this.isValid) {
-            return this.blueprint;
-        }
-
-        throw new ManufacturingProcessNotValid("Can't get blueprint because ManufacturingProcess object is invalid.");
-    }
+    private boolean validate(Storage storage, Blueprint blueprint, Report report) {
+        return storage != null &&
+               storage.getStockList() != null &&
+               blueprint != null &&
+               blueprint.getComponentScheme() != null &&
+               report != null;
+    }    
 } 
