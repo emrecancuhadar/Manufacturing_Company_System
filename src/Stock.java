@@ -1,4 +1,4 @@
 public class Stock {
-    private String name;
+    private ComponentNode component;
     private int quantity;
 } 

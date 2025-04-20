@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class ManufacturingController {
-    private List<Product> products;
+    private List<Order> orders;
     private Report report;
     
     public void loadData() {

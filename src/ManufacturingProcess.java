@@ -1,12 +1,12 @@
 public class ManufacturingProcess {
-    private Product product;
     private ManufacturingState currentState;
     
-    public void startManufacture() {
-        // To be implemented
+    public void startManufacture(Blueprint blueprint) {
     }
     
     public void setState(ManufacturingState state) {
-        // To be implemented
+    }
+    
+    public void handle(ManufacturingProcess process) {
     }
 } 

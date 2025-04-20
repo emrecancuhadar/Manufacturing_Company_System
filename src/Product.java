@@ -1,15 +1,13 @@
-import java.util.Map;
+import java.util.List;
 
 public class Product {
-    private Map<Component, Integer> components;
+    private List<Component> components;
     
     public double calculateCost() {
-        // To be implemented
-        return 0.0;
+        return 0;
     }
     
     public double calculateWeight() {
-        // To be implemented
-        return 0.0;
+        return 0;
     }
 } 

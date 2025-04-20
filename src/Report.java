@@ -2,7 +2,7 @@ import java.util.Map;
 
 public class Report {
     private Map<Product, Integer> successCounts;
-    private int productErrorCount;
+    private int systemErrorCount;
     private int damagedCount;
     private int stockShortageCount;
     
@@ -10,7 +10,7 @@ public class Report {
         // To be implemented
     }
     
-    public void recordFailure(FailureReason reason) {
+    public void recordFailureReason(FailureReason reason) {
         // To be implemented
     }
     

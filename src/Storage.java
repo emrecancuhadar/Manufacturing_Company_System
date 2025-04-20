@@ -4,7 +4,6 @@ public class Storage {
     private List<Stock> stockList;
     
     public Stock getStock(String stockName) {
-        // To be implemented
         return null;
     }
 } 
