@@ -22,11 +22,13 @@ public class ManufacturingController {
 
             while (!isOver()) {
                 Order order = orders.get(currentIndex);
-                ManufacturingProcess manufacturingProcess = new ManufacturingProcess();
-                manufacturingProcess.process(storage, order.getBlueprint(), report);
+                if(order.getQuantity() != 0) {
+                    ManufacturingProcess manufacturingProcess = new ManufacturingProcess();
+                    manufacturingProcess.process(storage, order.getBlueprint(), report);
 
                 order.markOneCompleted();
 
+                }
                 currentIndex = (currentIndex + 1) % orders.size();
             }
 

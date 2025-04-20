@@ -105,7 +105,7 @@ public class Report {
                     if (cost < 0 || weight < 0) {
                         System.out.printf("%-5d %-20s %-15s %-15s\n", 
                                          productId++, 
-                                         product.getClass().getSimpleName(), 
+                                         product.getName(), 
                                          "INVALID", "INVALID");
                         System.out.println("Invalid product cost or weight (negative values)");
                         continue;
@@ -116,13 +116,13 @@ public class Report {
                     
                     System.out.printf("%-5d %-20s %-15.2f %-15.2f\n", 
                                      productId++, 
-                                     product.getClass().getSimpleName(), 
+                                     product.getName(), 
                                      cost,
                                      weight);
                 } catch (InvalidComponentNodeException e) {
                     System.out.printf("%-5d %-20s %-15s %-15s\n", 
                                      productId++, 
-                                     product.getClass().getSimpleName(), 
+                                     product.getName(), 
                                      "ERROR", "ERROR");
                     System.out.println("Error calculating product cost/weight: " + e.getMessage());
                 }

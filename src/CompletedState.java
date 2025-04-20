@@ -9,6 +9,7 @@ public class CompletedState implements ManufacturingState {
                                                 InvalidComponentNodeException, 
                                                 InvalidStorageException {
         Product product = new Product();
+        product.setName(blueprint.getName());
 
         for (Map.Entry<String, Integer> entry: blueprint.getComponentScheme().entrySet()) {
             Component component = storage.getStock(entry.getKey()).getComponent();

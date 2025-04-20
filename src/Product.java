@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product {
+public class Product extends ComponentNode{
     private List<Component> components;
     
     
