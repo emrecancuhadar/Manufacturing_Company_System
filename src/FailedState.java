@@ -13,6 +13,7 @@ public class FailedState implements ManufacturingState {
     public void handle(ManufacturingProcess process, 
                         Storage storage, Blueprint blueprint, 
                         Report report) throws ManufacturingProcessNotValid {
+        System.out.println("-> Transitioned to: FailedState (" + failureReason + ")");
         report.recordFailure(this.failureReason);
     }
 } 

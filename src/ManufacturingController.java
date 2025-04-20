@@ -26,9 +26,10 @@ public class ManufacturingController {
                     ManufacturingProcess manufacturingProcess = new ManufacturingProcess();
                     manufacturingProcess.process(storage, order.getBlueprint(), report);
 
-                order.markOneCompleted();
+                    order.markOneCompleted();
 
                 }
+                
                 currentIndex = (currentIndex + 1) % orders.size();
             }
 

@@ -8,6 +8,8 @@ public class CompletedState implements ManufacturingState {
                         Report report) throws ManufacturingProcessNotValid, 
                                                 InvalidComponentNodeException, 
                                                 InvalidStorageException {
+        System.out.println("-> Transitioned to: CompletedState");
+
         Product product = new Product();
         product.setName(blueprint.getName());
 

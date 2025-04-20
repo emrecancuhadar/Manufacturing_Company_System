@@ -15,6 +15,7 @@ public class ManufacturingProcess {
                 throw new ManufacturingProcessNotValid();
             }
 
+            this.setCurrentState(new WaitingForStockState());
             this.currentState.handle(this, storage, blueprint, report);
         } catch (ManufacturingProcessNotValid | InvalidComponentNodeException | InvalidStorageException e) {
             e.printStackTrace();
