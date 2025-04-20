@@ -15,6 +15,9 @@ public class Report {
     }
 
     public Report(Report other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Cannot copy from null Report");
+        }
         this.successfulProducts = new ArrayList<>(other.successfulProducts);
         this.systemErrorCount = other.systemErrorCount;
         this.damagedCount = other.damagedCount;
@@ -22,10 +25,17 @@ public class Report {
     }
     
     public void recordSuccess(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("Cannot record success for null product");
+        }
         successfulProducts.add(product);
     }
     
     public void recordFailure(FailureReason reason) {
+        if (reason == null) {
+            throw new IllegalArgumentException("Failure reason cannot be null");
+        }
+        
         switch (reason) {
             case SYSTEM_ERROR:
                 systemErrorCount++;
@@ -36,10 +46,40 @@ public class Report {
             case STOCK_SHORTAGE:
                 stockShortageCount++;
                 break;
+            default:
+                throw new IllegalArgumentException("Unknown failure reason: " + reason);
         }
     }
     
+    /**
+     * Validates the report data before generating the report.
+     * @return true if the report data is valid, false otherwise
+     */
+    public boolean validateReport() {
+        // Check if failure counts are non-negative
+        if (systemErrorCount < 0 || damagedCount < 0 || stockShortageCount < 0) {
+            System.err.println("Invalid failure counts in report");
+            return false;
+        }
+        
+        // Check for null products in the successful products list
+        for (int i = 0; i < successfulProducts.size(); i++) {
+            if (successfulProducts.get(i) == null) {
+                System.err.println("Null product found at index " + i + " in successful products list");
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     public void generateReport() {
+        // Validate report data before generating
+        if (!validateReport()) {
+            System.err.println("Cannot generate report due to invalid data");
+            return;
+        }
+        
         System.out.println("\n===== MANUFACTURING REPORT =====");
         
         System.out.println("\nManufactured Products:");
@@ -60,6 +100,16 @@ public class Report {
                 try {
                     double cost = product.calculateCost();
                     double weight = product.calculateWeight();
+                    
+                    // Validate cost and weight
+                    if (cost < 0 || weight < 0) {
+                        System.out.printf("%-5d %-20s %-15s %-15s\n", 
+                                         productId++, 
+                                         product.getClass().getSimpleName(), 
+                                         "INVALID", "INVALID");
+                        System.out.println("Invalid product cost or weight (negative values)");
+                        continue;
+                    }
                     
                     totalCost += cost;
                     totalWeight += weight;
