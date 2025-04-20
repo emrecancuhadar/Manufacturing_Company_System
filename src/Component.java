@@ -9,10 +9,10 @@ public abstract class Component extends ComponentNode {
         this.componentEntry = new ComponentEntry();
     }
     // Full constructor
-    public Component(String name, double unitCost, double unitWeight, int quantity) 
+    public Component(String name, double unitCost, double unitWeight, int quantity, Type type, QuantityUnit quantityUnit) 
     {
         super(name, unitCost, unitWeight);
-        this.componentEntry = new ComponentEntry(quantity);
+        this.componentEntry = new ComponentEntry(quantity, type, quantityUnit);
     }
     // Copy constructor
     public Component(Component component) 
@@ -38,26 +38,26 @@ public abstract class Component extends ComponentNode {
         return componentEntry.getQuantity();
     }
     
-public double calculateCost() throws InvalidComponentNodeException
-{
-    if (!getIsComponentNodeValid()) 
+    public double calculateCost() throws InvalidComponentNodeException
     {
-        throw new InvalidComponentNodeException(
-            "Cannot calculate cost: component node is invalid."
-        );
+        if (!getIsComponentNodeValid()) 
+        {
+            throw new InvalidComponentNodeException(
+                "Cannot calculate cost: component node is invalid."
+            );
+        }
+        return getUnitCost() * getQuantity();
     }
-    return getUnitCost() * getQuantity();
-}
 
-public double calculateWeight() throws InvalidComponentNodeException 
-{
-    if (!getIsComponentNodeValid()) 
+    public double calculateWeight() throws InvalidComponentNodeException 
     {
-        throw new InvalidComponentNodeException(
-            "Cannot calculate weight: component node is invalid."
-        );
+        if (!getIsComponentNodeValid()) 
+        {
+            throw new InvalidComponentNodeException(
+                "Cannot calculate weight: component node is invalid."
+            );
+        }
+        return getUnitWeight() * getQuantity();
     }
-    return getUnitWeight() * getQuantity();
-}
 
 } 

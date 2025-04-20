@@ -40,6 +40,7 @@ public abstract class ComponentNode {
     {
         this.unitWeight = unitWeight;
     }
+    
     public String getName() 
     {
         return name;
