@@ -9,87 +9,86 @@ public class Component extends ComponentNode {
     {
         super();
         this.componentEntry = new ComponentEntry();
-        
     }
     // Full constructor
-    public Component(String name, double unitCost, double unitWeight, double quantity, Type type, QuantityUnit quantityUnit) 
-    {
+    public Component(String name,
+                     double unitCost,
+                     double unitWeight,
+                     double quantity,
+                     Type type,
+                     QuantityUnit quantityUnit) {
         super(name, unitCost, unitWeight);
         this.type = type;
         this.quantityUnit = quantityUnit;
         this.componentEntry = new ComponentEntry(quantity);
     }
     // Copy constructor
-    public Component(Component component) 
+    public Component(Component other) 
     {
-        super(component);
-        this.type = component.type;
-        this.quantityUnit = component.quantityUnit;
-        this.componentEntry = new ComponentEntry(component.componentEntry);
-    }
-    // Getters and Setters
-    public void setComponentEntry(ComponentEntry componentEntry) 
-    {
-        this.componentEntry = componentEntry;
+        super(other);
+        this.type = other.type;
+        this.quantityUnit = other.quantityUnit;
+        this.componentEntry = new ComponentEntry(other.componentEntry);
     }
 
+    // Getters & setters
     public ComponentEntry getComponentEntry() 
     {
         return componentEntry;
     }
-
+    public void setComponentEntry(ComponentEntry componentEntry) 
+    {
+        this.componentEntry = componentEntry;
+    }
+    public double getQuantity() 
+    {
+        return componentEntry.getQuantity();
+    }
     public void setQuantity(double quantity) 
     {
         this.componentEntry.setQuantity(quantity);
     }
-
+    public Type getType() 
+    {
+        return type;
+    }
     public void setType(Type type) 
     {
         this.type = type;
     }
-
+    public QuantityUnit getQuantityUnit() 
+    {
+        return quantityUnit;
+    }
     public void setQuantityUnit(QuantityUnit quantityUnit) 
     {
         this.quantityUnit = quantityUnit;
     }
 
-    public double getQuantity() 
+    /**
+     * Single private guard for all operations that require a valid node.
+     */
+    private void ensureValid() throws InvalidComponentNodeException 
     {
-        return componentEntry.getQuantity();
-    }
-
-    public Type getType() 
-    {
-        return type;
-    }
-
-    public QuantityUnit getQuantityUnit() 
-    {
-        return quantityUnit;
-    }
-    
-    @Override
-    public double calculateCost() throws InvalidComponentNodeException
-    {
-        if (!getIsComponentNodeValid()) 
-        {
+        if (!getIsComponentNodeValid()) {
             throw new InvalidComponentNodeException(
-                "Cannot calculate cost: component node is invalid."
+                "Operation not allowed: component node is invalid ("
+                + getName() + ")"
             );
         }
+    }
+
+    @Override
+    public double calculateCost() throws InvalidComponentNodeException 
+    {
+        ensureValid();
         return getUnitCost() * getQuantity();
     }
 
     @Override
     public double calculateWeight() throws InvalidComponentNodeException 
     {
-        if (!getIsComponentNodeValid()) 
-        {
-            throw new InvalidComponentNodeException(
-                "Cannot calculate weight: component node is invalid."
-            );
-        }
+        ensureValid();
         return getUnitWeight() * getQuantity();
     }
-
-} 
+}

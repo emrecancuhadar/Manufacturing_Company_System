@@ -1,80 +1,93 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product extends ComponentNode{
+public class Product extends ComponentNode {
     private List<Component> components;
-    
-    
+
     // Default constructor
-    public Product() 
-    {
+    public Product() {
+        super();
         this.components = new ArrayList<>();
     }
     // Full constructor
-    public Product(List<Component> components) 
-    {
+    public Product(List<Component> components) {
+        super();
         this.components = components;
     }
     // Copy constructor
-    public Product(Product product) 
-    {
-        this.components = new ArrayList<>(product.components);
+    public Product(Product other) {
+        super(other);
+        this.components = new ArrayList<>(other.components);
     }
-    
-    // Getters and Setters
-    public void setComponents(List<Component> components) 
-    {
+
+    public List<Component> getComponents() {
+        return components;
+    }
+    public void setComponents(List<Component> components) {
         this.components = components;
     }
-    public List<Component> getComponents() 
-    {
-        return components;
+
+    /**
+     * Single private guard to verify that:
+     * 1) The Product node itself is valid
+     * 2) The components list is non-null
+     */
+    private void ensureReady() throws InvalidComponentNodeException {
+        if (!getIsComponentNodeValid()) {
+            throw new InvalidComponentNodeException(
+                "Operation not allowed: product node is invalid (" + getName() + ")"
+            );
+        }
+        if (components == null) {
+            throw new InvalidComponentNodeException(
+                "Operation not allowed: components list is null for product (" + getName() + ")"
+            );
+        }
     }
 
     /**
      * @return the sum of all component costs
-     * @throws InvalidComponentNodeException if any component is invalid
+     * @throws InvalidComponentNodeException if this product or any component is invalid
      */
     @Override
-    public double calculateCost() throws InvalidComponentNodeException 
-    {
-        if (components == null) 
-        {
-            throw new InvalidComponentNodeException("Cannot calculate cost: components list is null.");
-        }
-        double total = 0;
-        for (Component c : components) 
-        {
-            total += c.calculateCost();  // may throw InvalidComponentNodeException
+    public double calculateCost() throws InvalidComponentNodeException {
+        ensureReady();
+        double total = 0.0;
+        for (Component c : components) {
+            // c.calculateCost() itself checks c.isComponentNodeValid()
+            total += c.calculateCost();
         }
         return total;
     }
 
     /**
      * @return the sum of all component weights
-     * @throws InvalidComponentNodeException if any component is invalid
+     * @throws InvalidComponentNodeException if this product or any component is invalid
      */
     @Override
     public double calculateWeight() throws InvalidComponentNodeException {
-        if (components == null) 
-        {
-            throw new InvalidComponentNodeException("Cannot calculate weight: components list is null.");
-        }
-        double total = 0;
-        for (Component c : components) 
-        {
-            total += c.calculateWeight();  // may throw InvalidComponentNodeException
+        ensureReady();
+        double total = 0.0;
+        for (Component c : components) {
+            // c.calculateWeight() itself checks c.isComponentNodeValid()
+            total += c.calculateWeight();
         }
         return total;
     }
 
-    public void addComponent(Component component) throws InvalidComponentNodeException
+    /**
+     * Adds a new component—guarding both this product and the incoming component.
+     */
+    public void addComponent(Component component)
+            throws InvalidComponentNodeException
     {
-        if (!component.getIsComponentNodeValid()) 
-        {
-            throw new InvalidComponentNodeException("Cannot add component: component is invalid.");
+        ensureReady();
+        if (!component.getIsComponentNodeValid()) {
+            throw new InvalidComponentNodeException(
+                "Cannot add component: component is invalid (" +
+                component.getName() + ")"
+            );
         }
-        
         this.components.add(component);
     }
-} 
+}
