@@ -9,8 +9,8 @@ public class ManufacturingController {
     private boolean isValid;
 
     public ManufacturingController() {
-        this.orders = CSVReader.parseProducts("./products.csv");
-        this.storage = new Storage(CSVReader.parseComponents("./components.csv"));
+        this.orders = ProductParser.parseProducts("./products.csv");
+        this.storage = new Storage(ComponentParser.parseComponents("./components.csv"));        
         this.isValid = true;
     }
        
