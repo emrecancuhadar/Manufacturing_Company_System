@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 public class Component extends ComponentNode {
 
     private ComponentEntry componentEntry;
@@ -12,7 +15,7 @@ public class Component extends ComponentNode {
         
     }
     // Full constructor
-    public Component(String name, double unitCost, double unitWeight, int quantity, Type type, QuantityUnit quantityUnit) 
+    public Component(String name, double unitCost, double unitWeight, double quantity, Type type, QuantityUnit quantityUnit) 
     {
         super(name, unitCost, unitWeight);
         this.type = type;
@@ -38,7 +41,7 @@ public class Component extends ComponentNode {
         return componentEntry;
     }
 
-    public void setQuantity(int quantity) 
+    public void setQuantity(double quantity) 
     {
         this.componentEntry.setQuantity(quantity);
     }
@@ -53,7 +56,7 @@ public class Component extends ComponentNode {
         this.quantityUnit = quantityUnit;
     }
 
-    public int getQuantity() 
+    public double getQuantity() 
     {
         return componentEntry.getQuantity();
     }

@@ -16,4 +16,4 @@ public class FailedState implements ManufacturingState {
         System.out.println("-> Transitioned to: FailedState (" + failureReason + ")");
         report.recordFailure(this.failureReason);
     }
-} 
+}

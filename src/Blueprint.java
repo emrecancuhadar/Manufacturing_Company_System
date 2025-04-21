@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Blueprint {
-    private Map<String, Integer> componentScheme;
+    private Map<String, Double> componentScheme;
     private String name;
 
     public Blueprint() {
@@ -26,7 +26,7 @@ public class Blueprint {
         this.name = blueprint.name;
     }
     
-    public Map<String, Integer> getComponentScheme() {
+    public Map<String, Double> getComponentScheme() {
         return componentScheme;
     }
     
@@ -34,7 +34,13 @@ public class Blueprint {
         return name;
     }
     
-    public void addComponent(String componentName, int quantity) {
+    /**
+     * Adds a new component to the blueprint. This function is used to
+     * create a blueprint using the csv file.
+     * @param componentName - the name of the component to add
+     * @param quantity - the quantity of the component 
+     */
+    public void addComponent(String componentName, double quantity) {
         if (componentName == null || componentName.trim().isEmpty()) {
             throw new IllegalArgumentException("Component name cannot be null or empty");
         }
@@ -62,9 +68,9 @@ public class Blueprint {
         }
         
         // Check all components have valid quantities
-        for (Map.Entry<String, Integer> entry : componentScheme.entrySet()) {
+        for (Map.Entry<String, Double> entry : componentScheme.entrySet()) {
             String componentName = entry.getKey();
-            Integer quantity = entry.getValue();
+            Double quantity = entry.getValue();
             
             if (componentName == null || componentName.trim().isEmpty()) {
                 return false;

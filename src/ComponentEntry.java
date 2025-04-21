@@ -1,6 +1,6 @@
 public class ComponentEntry {
 
-    private int quantity;
+    private double quantity;
     private boolean isComponentEntryValid = false;
     
     // Default constructor
@@ -9,7 +9,7 @@ public class ComponentEntry {
         this.quantity = 0;
     }
     // Full constructor
-    public ComponentEntry(int quantity) 
+    public ComponentEntry(double quantity) 
     {
         this.quantity = quantity;
         this.isComponentEntryValid = true;
@@ -21,7 +21,7 @@ public class ComponentEntry {
         this.isComponentEntryValid = other.isComponentEntryValid;
     }
     // Getters and Setters
-    public void setQuantity(int quantity) 
+    public void setQuantity(double quantity) 
     {
         this.quantity = quantity;
     }
@@ -31,7 +31,7 @@ public class ComponentEntry {
         this.isComponentEntryValid = isComponentEntryValid;
     }
 
-    public int getQuantity() 
+    public double getQuantity() 
     {
         return quantity;
     }
