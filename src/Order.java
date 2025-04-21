@@ -1,8 +1,8 @@
 public class Order {
     private Blueprint blueprint;
-    private int quantity;
+    private Double quantity;
 
-    public Order(Blueprint blueprint, int quantity) {
+    public Order(Blueprint blueprint, Double quantity) {
         if (blueprint == null) {
             throw new IllegalArgumentException("Blueprint cannot be null");
         }
@@ -19,7 +19,7 @@ public class Order {
         return blueprint;
     }
 
-    public int getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
