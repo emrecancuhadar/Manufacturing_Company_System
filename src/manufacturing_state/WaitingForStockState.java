@@ -45,6 +45,7 @@ public class WaitingForStockState implements ManufacturingState {
                 process.getCurrentState().handle(process, storage, blueprint, report);
                 return; // Stop processing this product
             } else {
+                // if there is enough stock reduce it no matter the end state (failure or success)
                 storage.reduceStockQuantity(entry.getKey(), entry.getValue());
             }
         }
