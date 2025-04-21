@@ -1,3 +1,5 @@
+import manufacturing.ManufacturingController;
+
 /**
  * @author Berk Şengül
  * @author Emrecan Çuhadar
