@@ -25,11 +25,6 @@ public class ComponentEntry {
     {
         this.quantity = quantity;
     }
-    
-    public void setIsComponentEntryValid(boolean isComponentEntryValid) 
-    {
-        this.isComponentEntryValid = isComponentEntryValid;
-    }
 
     public double getQuantity() 
     {

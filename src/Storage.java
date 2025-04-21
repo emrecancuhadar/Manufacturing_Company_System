@@ -30,10 +30,7 @@ public class Storage {
     public List<Stock> getStockList() {
         return stockList;
     }
-    public void setIsStorageValid(Boolean isStorageValid) 
-    {
-        this.isStorageValid = isStorageValid;
-    }
+
     public Boolean getIsStorageValid() 
     {
         return isStorageValid;
