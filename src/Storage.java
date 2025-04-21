@@ -74,7 +74,7 @@ public class Storage {
      * @return true if in stock with sufficient quantity, false otherwise
      * @throws InvalidStorageException if the storage itself is not valid
      */
-    public Boolean checkStock(String componentName, int requiredQuantity) throws InvalidStorageException
+    public Boolean checkStock(String componentName, Double requiredQuantity) throws InvalidStorageException
     {
         if (!getIsStorageValid()) 
         {
@@ -99,7 +99,7 @@ public class Storage {
         return false;
     }
 
-    public void reduceStockQuantity(String componentName, int quantity) throws InvalidStorageException
+    public void reduceStockQuantity(String componentName, Double quantity) throws InvalidStorageException
     {
         if (!getIsStorageValid()) 
         {
@@ -117,7 +117,7 @@ public class Storage {
         {
             if (componentName.equals(stock.getComponent().getName())) 
             {
-                int currentQuantity = stock.getQuantity();
+                Double currentQuantity = stock.getQuantity();
                 if (currentQuantity >= quantity) 
                 {
                     stock.setQuantity(currentQuantity - quantity);

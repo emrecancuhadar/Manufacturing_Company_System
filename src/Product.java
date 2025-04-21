@@ -35,6 +35,7 @@ public class Product extends ComponentNode{
      * @return the sum of all component costs
      * @throws InvalidComponentNodeException if any component is invalid
      */
+    @Override
     public double calculateCost() throws InvalidComponentNodeException 
     {
         if (components == null) 
@@ -53,6 +54,7 @@ public class Product extends ComponentNode{
      * @return the sum of all component weights
      * @throws InvalidComponentNodeException if any component is invalid
      */
+    @Override
     public double calculateWeight() throws InvalidComponentNodeException {
         if (components == null) 
         {

@@ -1,14 +1,14 @@
 public class Stock {
     private Component component;
-    private int quantity;
+    private Double quantity;
 
     // Default constructor
     public Stock() {
         this.component = null;
-        this.quantity = 0;
+        this.quantity = 0.0;
     }
     // Full constructor
-    public Stock(Component component, int quantity) {
+    public Stock(Component component, Double quantity) {
         this.component = component;
         this.quantity = quantity;
     }
@@ -28,12 +28,12 @@ public class Stock {
         return component;
     }
 
-    public void setQuantity(int quantity) 
+    public void setQuantity(Double quantity) 
     {
         this.quantity = quantity;
     }
 
-    public int getQuantity() 
+    public Double getQuantity() 
     {
         return quantity;
     }

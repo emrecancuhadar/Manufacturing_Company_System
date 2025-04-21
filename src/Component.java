@@ -1,6 +1,3 @@
-/**
- * 
- */
 public class Component extends ComponentNode {
 
     private ComponentEntry componentEntry;
@@ -71,6 +68,7 @@ public class Component extends ComponentNode {
         return quantityUnit;
     }
     
+    @Override
     public double calculateCost() throws InvalidComponentNodeException
     {
         if (!getIsComponentNodeValid()) 
@@ -82,6 +80,7 @@ public class Component extends ComponentNode {
         return getUnitCost() * getQuantity();
     }
 
+    @Override
     public double calculateWeight() throws InvalidComponentNodeException 
     {
         if (!getIsComponentNodeValid()) 
