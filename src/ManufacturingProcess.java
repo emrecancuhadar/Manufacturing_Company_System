@@ -1,3 +1,6 @@
+/**
+ * Main class responsible for handling the manufacturing process
+ */
 public class ManufacturingProcess {
     private ManufacturingState currentState;
     private boolean isValid;
@@ -7,17 +10,24 @@ public class ManufacturingProcess {
         this.isValid = false;
     }
     
+    /**
+     * Process the manufacturing order starting from the WaitingForStock state
+     * @param storage - the storage object used to check for stocks
+     * @param blueprint - the blueprint object of the order
+     * @param report - the report object for saving the failure/success of the order
+     */
     public void process(Storage storage, Blueprint blueprint, Report report) {
         this.setIsValid(this.validate(storage, blueprint, report));
 
         try {
             if (!isValid) {
-                throw new ManufacturingProcessNotValid();
+                throw new ManufacturingProcessNotValidException();
             }
 
+            // set the state to WaitingForStockState and let the states handle
             this.setCurrentState(new WaitingForStockState());
             this.currentState.handle(this, storage, blueprint, report);
-        } catch (ManufacturingProcessNotValid | InvalidComponentNodeException | InvalidStorageException e) {
+        } catch (ManufacturingProcessNotValidException | InvalidComponentNodeException | InvalidStorageException | InvalidStockException e) {
             e.printStackTrace();
         }
     }
@@ -26,12 +36,12 @@ public class ManufacturingProcess {
         this.currentState = state;
     }
 
-    public ManufacturingState getCurrentState() throws ManufacturingProcessNotValid {
+    public ManufacturingState getCurrentState() throws ManufacturingProcessNotValidException {
         if (this.isValid) {
             return this.currentState;
         }
 
-        throw new ManufacturingProcessNotValid("Can't get current state because ManufacturingProcess object is invalid.");
+        throw new ManufacturingProcessNotValidException("Can't get current state because ManufacturingProcess object is invalid.");
     }
 
     private void setIsValid(boolean isValid) {

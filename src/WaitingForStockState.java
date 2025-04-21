@@ -4,28 +4,28 @@ public class WaitingForStockState implements ManufacturingState {
     @Override
     public void handle(ManufacturingProcess process,
                        Storage storage, Blueprint blueprint,
-                       Report report) throws ManufacturingProcessNotValid,
+                       Report report) throws ManufacturingProcessNotValidException,
                                               InvalidStorageException,
-                                              InvalidComponentNodeException {
+                                              InvalidComponentNodeException, InvalidStockException {
         System.out.println("============================================================");
         System.out.println("-> State: WaitingForStockState");
         System.out.println("Manufacturing product: " + blueprint.getName());
         System.out.println("Blueprint Components:");
 
-        for (Map.Entry<String, Integer> entry : blueprint.getComponentScheme().entrySet()) {
+        for (Map.Entry<String, Double> entry : blueprint.getComponentScheme().entrySet()) {
             String componentName = entry.getKey();
-            int requiredQuantity = entry.getValue();
+            double requiredQuantity = entry.getValue();
 
             Stock stockEntry = storage.getStock(componentName);
             Component component = stockEntry.getComponent();
 
-            System.out.printf("- %s (%s), Quantity: %d, Unit Cost: %.2f%n",
+            System.out.printf("- %s (%s), Quantity: %.2f, Unit Cost: %.2f%n",
                     componentName, component.getType().getLabel(),
                     requiredQuantity, component.getUnitCost());
 
             if (!storage.checkStock(componentName, requiredQuantity)) {
-                int availableQuantity = stockEntry.getQuantity();
-                System.out.printf("-> Missing component(s): %s (%s), Required: %d, Available: %d%n",
+                double availableQuantity = stockEntry.getQuantity();
+                System.out.printf("-> Missing component(s): %s (%s), Required: %.2f, Available: %.2f%n",
                         componentName, component.getType().getLabel(), requiredQuantity, availableQuantity);
 
                 process.setCurrentState(new FailedState(FailureReason.STOCK_SHORTAGE));

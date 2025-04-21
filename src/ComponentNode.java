@@ -8,8 +8,8 @@ public abstract class ComponentNode {
     public ComponentNode() 
     {
         this.name = "";
-        this.unitCost = 0;
-        this.unitWeight = 0;
+        this.unitCost = 0.0;
+        this.unitWeight = 0.0;
     }
     //Full constructor
     public ComponentNode(String name, double unitCost, double unitWeight) 
@@ -40,7 +40,6 @@ public abstract class ComponentNode {
     {
         this.unitWeight = unitWeight;
     }
-    
     public String getName() 
     {
         return name;
@@ -53,6 +52,7 @@ public abstract class ComponentNode {
     {
         return unitWeight;
     }
+
     public boolean getIsComponentNodeValid() 
     {
         return isComponentNodeValid;

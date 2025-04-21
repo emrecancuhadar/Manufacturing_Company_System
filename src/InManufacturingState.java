@@ -1,9 +1,15 @@
+/**
+ * The state class when the manufacturing process is in progress
+ */
 public class InManufacturingState implements ManufacturingState {
 
     @Override
     public void handle(ManufacturingProcess process, 
                         Storage storage, Blueprint blueprint, 
-                        Report report) throws ManufacturingProcessNotValid, InvalidComponentNodeException, InvalidStorageException {
+                        Report report) throws ManufacturingProcessNotValidException, 
+                                                InvalidComponentNodeException, 
+                                                InvalidStorageException, 
+                                                InvalidStockException {
         System.out.println("-> All required stock is available.");
         System.out.println("-> State: InManufacturingState");
         ManufacturingState randState = RandomStateGenerator.generateRandomState();

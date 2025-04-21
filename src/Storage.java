@@ -1,5 +1,8 @@
 import java.util.List;
 
+/**
+ * Holds the stock of each component
+ */
 public class Storage {
     private List<Stock> stockList;
     private Boolean isStorageValid = false;
@@ -46,6 +49,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Returns the stock object given the name of the component
+     * @param stockName - name of the component to get the stock
+     * @return the Stock object for the queried component
+     * @throws InvalidStorageException
+     * @throws InvalidStockException
+     */
     public Stock getStock(String stockName)
             throws InvalidStorageException, InvalidStockException
     {
@@ -66,6 +76,14 @@ public class Storage {
         return null;
     }
 
+    /**
+     * Checks if there is enough stock for the given component
+     * @param componentName - the name of the component to check the stock for
+     * @param requiredQuantity - the required quantity for the component
+     * @return true if there is enough stock for the component
+     * @throws InvalidStorageException
+     * @throws InvalidStockException
+     */
     public Boolean checkStock(String componentName, Double requiredQuantity)
             throws InvalidStorageException, InvalidStockException
     {
@@ -85,6 +103,13 @@ public class Storage {
         return false;
     }
 
+    /**
+     * Reduces the stock by the given amount
+     * @param componentName - the name of the component to reduce the stock for
+     * @param quantity - how much to reduce from the stock
+     * @throws InvalidStorageException
+     * @throws InvalidStockException
+     */
     public void reduceStockQuantity(String componentName, Double quantity)
             throws InvalidStorageException, InvalidStockException
     {

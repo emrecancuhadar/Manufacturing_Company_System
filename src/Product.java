@@ -9,11 +9,12 @@ public class Product extends ComponentNode {
         super();
         this.components = new ArrayList<>();
     }
-    // Full constructor
-    public Product(List<Component> components) {
-        super();
-        this.components = components;
+
+    public Product(String productName) {
+        super(productName, 0.0, 0.0);
+        this.components = new ArrayList<>();
     }
+    
     // Copy constructor
     public Product(Product other) {
         super(other);
@@ -23,6 +24,7 @@ public class Product extends ComponentNode {
     public List<Component> getComponents() {
         return components;
     }
+    
     public void setComponents(List<Component> components) {
         this.components = components;
     }
@@ -38,6 +40,7 @@ public class Product extends ComponentNode {
                 "Operation not allowed: product node is invalid (" + getName() + ")"
             );
         }
+
         if (components == null) {
             throw new InvalidComponentNodeException(
                 "Operation not allowed: components list is null for product (" + getName() + ")"

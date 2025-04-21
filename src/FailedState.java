@@ -1,3 +1,6 @@
+/**
+ * Failed state for manufacturing process
+ */
 public class FailedState implements ManufacturingState {
     private FailureReason failureReason;
 
@@ -12,7 +15,7 @@ public class FailedState implements ManufacturingState {
     @Override
     public void handle(ManufacturingProcess process, 
                         Storage storage, Blueprint blueprint, 
-                        Report report) throws ManufacturingProcessNotValid {
+                        Report report) throws ManufacturingProcessNotValidException {
         System.out.println("-> Transitioned to: FailedState (" + failureReason + ")");
         report.recordFailure(this.failureReason);
     }

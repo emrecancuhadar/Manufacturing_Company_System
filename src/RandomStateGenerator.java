@@ -1,5 +1,8 @@
 import java.util.Random;
 
+/**
+ * Random state generator for manufacturing process
+ */
 public class RandomStateGenerator {
   
   public static ManufacturingState generateRandomState() {

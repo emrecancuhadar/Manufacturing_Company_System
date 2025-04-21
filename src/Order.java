@@ -1,3 +1,7 @@
+/**
+ * Order class for the orders in the csv files
+ * holds the blueprint of the product and the number of orders
+ */
 public class Order {
     private Blueprint blueprint;
     private Double quantity;

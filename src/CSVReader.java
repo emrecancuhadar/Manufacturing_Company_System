@@ -7,10 +7,23 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Reads, validates, and parses the csv files (i.e. products.csv, components.csv)
+ */
 public class CSVReader {
+    /**
+     * Reads the csv file and creates Stock objects
+     * @param filePath - name of the file path
+     * @return list of Stock objects
+     */
     public static List<Stock> parseComponents(String filePath) {
         List<Stock> stocks = new ArrayList<>();
         List<String[]> rows = readCsvFile(filePath, ";", 5);
+
+        if (rows.isEmpty()) {
+            System.err.println("Error: No data found in components file");
+            return stocks;
+        }
         
         // Skip header row
         for (int i = 1; i < rows.size(); i++) {
@@ -23,6 +36,11 @@ public class CSVReader {
         return stocks;
     }
 
+    /**
+     * Reads the csv file and creates Stock objects
+     * @param filePath - name of the file path
+     * @return list of Order objects
+     */
     public static List<Order> parseProducts(String filePath) {
         List<Order> orders = new ArrayList<>();
         List<String[]> rows = readCsvFile(filePath, ";", 2);
@@ -58,16 +76,13 @@ public class CSVReader {
         return line == null || line.trim().isEmpty();
     }
     
-    private static Integer parseIntSafely(String value, int lineNumber, String fieldName) {
-        if (isEmptyLine(value)) return null;
-        try {
-            return Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            System.err.println("Warning: Invalid " + fieldName + " format at line " + lineNumber);
-            return null;
-        }
-    }
-    
+    /**
+     * Parses the given string value to double using type check
+     * @param value - the double value to be parsed to double
+     * @param lineNumber - the line number in the csv file
+     * @param fieldName - name of the field the value corresponds to in the csv file
+     * @return format checked double value
+     */
     private static Double parseDoubleSafely(String value, int lineNumber, String fieldName) {
         if (isEmptyLine(value)) return 0.0; // Default for empty values
         try {
@@ -78,28 +93,32 @@ public class CSVReader {
         }
     }
     
-    // Extract quantity value from a string like "1000 m²"
-    private static Integer extractQuantityValue(String stockQuantityStr, int lineNumber) {
+    /**
+     * Extract quantity value from a string like "1000 m²"
+     * @param stockQuantityStr - quantity text
+     * @param lineNumber - the line number in the csv file
+     * @return stock value
+     */
+    private static Double extractQuantityValue(String stockQuantityStr, int lineNumber) {
         if (isEmptyLine(stockQuantityStr)) return null;
         
         // Pattern to extract the number part
-        Pattern pattern = Pattern.compile("(\\d+)");
+        Pattern pattern = Pattern.compile("\\d+(\\.\\d+)?");
         Matcher matcher = pattern.matcher(stockQuantityStr.trim());
         
         if (matcher.find()) {
-            try {
-                return Integer.parseInt(matcher.group(1));
-            } catch (NumberFormatException e) {
-                System.err.println("Warning: Invalid quantity format at line " + lineNumber + ": " + stockQuantityStr);
-                return null;
-            }
+            return parseDoubleSafely(matcher.group(), lineNumber, stockQuantityStr);
         } else {
             System.err.println("Warning: Could not extract quantity value at line " + lineNumber + ": " + stockQuantityStr);
             return null;
         }
     }
     
-    // Determine the QuantityUnit enum from stock quantity string
+    /**
+     * Determine the QuantityUnit enum from stock quantity string
+     * @param stockQuantityStr - quantity unit from the csv file
+     * @return the quantity unit enum
+     */
     private static QuantityUnit determineQuantityUnit(String stockQuantityStr) {
         String lowerCaseStr = stockQuantityStr.toLowerCase();
         
@@ -116,7 +135,13 @@ public class CSVReader {
         }
     }
     
-    // File reading function
+    /**
+     * Reads the csv file
+     * @param filePath - the path fo the file
+     * @param delimiter - delimeter used to seperate the values
+     * @param minColumns - number of minimum columns
+     * @return list of the rows in String array
+     */
     private static List<String[]> readCsvFile(String filePath, String delimiter, int minColumns) {
         List<String[]> rows = new ArrayList<>();
         
@@ -144,7 +169,12 @@ public class CSVReader {
         return rows;
     }
     
-    // Parse a single component row
+    /**
+     * Parses a single component row
+     * @param data - row data of the compoennt
+     * @param lineNumber - the line of the row
+     * @return Stock object created
+     */
     private static Stock parseComponentRow(String[] data, int lineNumber) {
         try {
             String componentName = data[0].trim();
@@ -156,7 +186,7 @@ public class CSVReader {
             String stockQuantityStr = data[4];
             
             // Extract quantity value and unit type separately
-            Integer quantity = extractQuantityValue(stockQuantityStr, lineNumber);
+            Double quantity = extractQuantityValue(stockQuantityStr, lineNumber);
             QuantityUnit unit = determineQuantityUnit(stockQuantityStr);
             
             if (unitCost == null || unitWeight == null || quantity == null) return null;
@@ -176,7 +206,13 @@ public class CSVReader {
         }
     }
     
-    // Parse a single product row with header info
+    /**
+     * Parse a single product row with header info
+     * @param data - row data of the product (e.g., ["Chair", "2", "0", "5", "10"])
+     * @param header - headers for the row (e.g., ["Product", "Screw", "Glue", "Wood", "Quantity"])
+     * @param lineNumber - the line of the row
+     * @return Order object created
+     */
     private static Order parseProductRow(String[] data, String[] header, int lineNumber) {
         try {
             String productName = data[0].trim();
@@ -185,7 +221,7 @@ public class CSVReader {
             Blueprint blueprint = new Blueprint(productName);
             
             // Last column is the order quantity
-            Integer orderQuantity = parseIntSafely(data[data.length - 1], lineNumber, "order quantity");
+            Double orderQuantity = parseDoubleSafely(data[data.length - 1], lineNumber, "order quantity");
             if (orderQuantity == null || orderQuantity <= 0) return null;
             
             // Process components (skip first column and last column)
@@ -198,7 +234,13 @@ public class CSVReader {
         }
     }
     
-    // Process component quantities for a product
+    /**
+     * Reads and processes the component quantities of a product from a CSV row and adding them to a Blueprint object. 
+     * @param data - row data of the product (e.g., ["Chair", "2", "0", "5", "10"])
+     * @param header - headers for the row (e.g., ["Product", "Screw", "Glue", "Wood", "Quantity"])
+     * @param blueprint - the Blueprint object that this method will populate with components
+     * @param lineNumber - the line of the row
+     */
     private static void processComponentsForProduct(String[] data, String[] header, Blueprint blueprint, int lineNumber) {
         for (int i = 1; i < data.length - 1; i++) {
             if (i >= header.length) break;
@@ -210,7 +252,7 @@ public class CSVReader {
             if (doubleQuantity != null && doubleQuantity > 0) {
                 String componentName = header[i];
                 if (!isEmptyLine(componentName)) {
-                    blueprint.addComponent(componentName, (int)Math.ceil(doubleQuantity));
+                    blueprint.addComponent(componentName, doubleQuantity);
                 }
             }
         }

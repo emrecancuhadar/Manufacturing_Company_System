@@ -1,5 +1,8 @@
 import java.util.List;
 
+/**
+ * Main controller for manufacturing
+ */
 public class ManufacturingController {
     private List<Order> orders;
     private Storage storage;
@@ -11,10 +14,14 @@ public class ManufacturingController {
         this.isValid = true;
     }
        
+    /**
+     * While the storage is not empty or the orders are not finished,
+     * create a new product
+     */
     public void startManufacturing() {
         try {
             if (!isValid) {
-                throw new ManufacturingControllerNotValid();
+                throw new ManufacturingControllerNotValidException();
             }
     
             Report report = new Report();
@@ -25,20 +32,25 @@ public class ManufacturingController {
                 if(order.getQuantity() != 0) {
                     ManufacturingProcess manufacturingProcess = new ManufacturingProcess();
                     manufacturingProcess.process(storage, order.getBlueprint(), report);
-
+                    
+                    // mark the order as completed and reduce one
                     order.markOneCompleted();
-
                 }
                 
                 currentIndex = (currentIndex + 1) % orders.size();
             }
-
+            
+            // generate the final report
             report.generateReport();
-        } catch (ManufacturingControllerNotValid e) {
+        } catch (ManufacturingControllerNotValidException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Checks if the storage is empty or orders are finished
+     * @return true if the manufacturing should end
+     */
     private boolean isOver() {
         boolean allOrdersDone = orders.stream().allMatch(Order::isFinished);
         boolean stockDepleted = storage.getStockList().isEmpty();

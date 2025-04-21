@@ -24,6 +24,10 @@ public class Report {
         this.stockShortageCount = other.stockShortageCount;
     }
     
+    /**
+     * Adds the given product to the succesful products
+     * @param product - the product object that has been succesfully manufactured
+     */
     public void recordSuccess(Product product) {
         if (product == null) {
             throw new IllegalArgumentException("Cannot record success for null product");
@@ -31,6 +35,10 @@ public class Report {
         successfulProducts.add(product);
     }
     
+    /**
+     * Increases the counter for the given failure reason
+     * @param reason - the reason for failure
+     */
     public void recordFailure(FailureReason reason) {
         if (reason == null) {
             throw new IllegalArgumentException("Failure reason cannot be null");
@@ -73,6 +81,9 @@ public class Report {
         return true;
     }
     
+    /**
+     * Generates the final report for the manufacturing process
+     */
     public void generateReport() {
         // Validate report data before generating
         if (!validateReport()) {
